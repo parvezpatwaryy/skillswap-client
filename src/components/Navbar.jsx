@@ -53,7 +53,7 @@ const Navbar = () => {
             {!user ? (
               <li>
                 <Link
-                  href="/login"
+                  href="/auth/signin"
                   className="hover:text-indigo-400"
                 >
                   Login
