@@ -25,6 +25,7 @@ const RegisterPage = () => {
         name,
         image,
         role,
+        callbackURL: "/",
       }, {
         onSuccess: () => {
           toast.dismiss(loadingToast);
