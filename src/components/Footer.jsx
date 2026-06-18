@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="w-full py-12 bg-gray-950 text-white">
@@ -9,16 +11,16 @@ export default function Footer() {
         
         <div className="flex flex-col gap-2">
           <h3 className="font-semibold mb-2">Pages</h3>
-          <a href="/" className="text-gray-400 hover:text-white">Home</a>
-          <a href="/browse-tasks" className="text-gray-400 hover:text-white">Browse Tasks</a>
-          <a href="/browse-freelancers" className="text-gray-400 hover:text-white">Freelancers</a>
+          <Link href="/" className="text-gray-400 hover:text-white">Home</Link>
+          <Link href="/browse-tasks" className="text-gray-400 hover:text-white">Browse Tasks</Link>
+          <Link href="/browse-freelancers" className="text-gray-400 hover:text-white">Freelancers</Link>
         </div>
 
         <div className="flex flex-col gap-2">
           <h3 className="font-semibold mb-2">Contact</h3>
-          <a href="mailto:support@skillswap.com" className="text-gray-400 hover:text-white">support@skillswap.com</a>
+          <Link href="mailto:support@skillswap.com" className="text-gray-400 hover:text-white">support@skillswap.com</Link>
           <div className="mt-4">
-             <a href="https://x.com" target="_blank" className="text-xl hover:text-blue-400">𝕏</a>
+             <Link href="https://x.com" target="_blank" className="text-xl hover:text-blue-400">𝕏</Link>
           </div>
         </div>
       </div>
