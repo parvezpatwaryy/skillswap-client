@@ -1,89 +1,64 @@
 "use client";
-import { motion } from "framer-motion";
-import { Briefcase, Users, DollarSign, CheckCircle } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
-// --- DUMMY DATA ---
-const tasks = [
-  { id: 1, title: "Build a Landing Page", client: "John Doe", category: "Development", budget: 500, deadline: "2026-07-15" },
-  { id: 2, title: "Logo Design", client: "Jane Smith", category: "Design", budget: 200, deadline: "2026-06-30" },
-];
+const Home = () => {
+  const [tasks, setTasks] = useState([]);
+  const [freelancers, setFreelancers] = useState([]);
 
-const freelancers = [
-  { name: "Alex Rivet", skills: ["React", "Node"], rating: 4.9, jobs: 45 },
-  { name: "Sarah Chen", skills: ["UI/UX", "Figma"], rating: 5.0, jobs: 32 },
-];
+  useEffect(() => {
+    fetch('http://localhost:5000/latest-tasks').then(res => res.json()).then(setTasks);
+    fetch('http://localhost:5000/top-freelancers').then(res => res.json()).then(setFreelancers);
+  }, []);
 
-export default function HomePage() {
   return (
-    <main className="space-y-20 py-10">
-      {/* 1. HERO SECTION */}
-      <section className="text-center space-y-6 px-4">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          className="text-5xl font-bold">Get your tasks done by skilled freelancers</motion.h1>
-        <p className="text-gray-600 max-w-lg mx-auto">Connect with top-tier professionals to bring your projects to life quickly and efficiently.</p>
-        <div className="flex gap-4 justify-center">
-          <button className="bg-blue-600 text-white px-6 py-2 rounded-lg">Post a Task</button>
-          <button className="border px-6 py-2 rounded-lg">Browse Tasks</button>
-        </div>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Hero Section */}
+      <section className="relative py-24 bg-gradient-to-r from-blue-700 to-indigo-800 text-white text-center">
+        <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
+          <h1 className="text-5xl font-extrabold mb-6">Get your tasks done by skilled freelancers</h1>
+          <p className="text-lg opacity-90 mb-8 max-w-2xl mx-auto">Connect with top-rated experts for your next project. Quality work guaranteed.</p>
+          <div className="flex justify-center gap-4">
+            <button className="bg-white text-blue-700 px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition">Post a Task</button>
+            <button className="border-2 border-white px-8 py-3 rounded-full font-bold hover:bg-white hover:text-blue-700 transition">Browse Tasks</button>
+          </div>
+        </motion.div>
       </section>
 
-      {/* 2. DYNAMIC SECTION 1: LATEST TASKS */}
-      <section className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8">Latest Featured Tasks</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          {tasks.map((task) => (
-            <motion.div whileHover={{ scale: 1.02 }} key={task.id} className="p-6 border rounded-xl shadow-sm">
-              <h3 className="font-bold text-xl">{task.title}</h3>
-              <p className="text-sm text-gray-500">{task.client} • {task.category}</p>
-              <div className="mt-4 flex justify-between font-semibold text-blue-600">
-                <span>${task.budget}</span>
-                <span>Due: {task.deadline}</span>
+      {/* Latest Tasks Section */}
+      <section className="container mx-auto py-16 px-6">
+        <h2 className="text-3xl font-bold mb-10 text-gray-800 text-center">Latest Featured Tasks</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {tasks.map(t => (
+            <motion.div whileHover={{ y: -10 }} key={t._id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl transition">
+              <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">{t.category || 'Development'}</span>
+              <h3 className="text-xl font-bold my-3 text-gray-700">{t.title}</h3>
+              <div className="flex justify-between items-center mt-6">
+                <span className="text-lg font-bold text-green-600">${t.budget}</span>
+                <span className="text-sm text-gray-400">Deadline: {t.deadline ? new Date(t.deadline).toLocaleDateString() : 'N/A'}</span>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* 3. DYNAMIC SECTION 2: TOP FREELANCERS */}
-      <section className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8">Top Freelancers</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          {freelancers.map((f, i) => (
-            <div key={i} className="p-6 border rounded-xl text-center">
-              <div className="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4" />
-              <h3 className="font-bold">{f.name}</h3>
-              <p className="text-sm text-gray-500">{f.skills.join(", ")}</p>
-              <p className="mt-2 font-bold">{f.rating} ★ ({f.jobs} jobs)</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 4. EXTRA: HOW IT WORKS */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-10 text-black">How It Works</h2> {/* text-black যোগ করা হয়েছে */}
-          <div className="flex flex-col md:flex-row justify-around gap-8">
-            {['Post a Task', 'Get Proposals', 'Hire and Pay'].map((step, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mb-4">{i + 1}</div>
-                <h4 className="font-bold text-gray-900">{step}</h4> {/* text-gray-900 যোগ করা হয়েছে */}
-              </div>
+      {/* Top Freelancers Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-3xl font-bold mb-12 text-gray-800">Our Top Freelancers</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {freelancers.map(f => (
+              <motion.div whileHover={{ scale: 1.05 }} key={f._id} className="p-6 border border-gray-100 rounded-3xl bg-gray-50">
+                <img src={f.image || '/avatar.png'} className="w-24 h-24 rounded-full mx-auto border-4 border-white shadow-md mb-4" alt="profile" />
+                <h3 className="font-bold text-lg">{f.name}</h3>
+                <div className="text-yellow-500 font-bold mt-1">⭐ {f.rating}</div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* 5. EXTRA: PLATFORM STATISTICS */}
-      <section className="max-w-6xl mx-auto px-4 grid grid-cols-3 gap-6 text-center">
-        {[{ label: "Total Tasks", val: "1,200+" }, { label: "Total Users", val: "500+" }, { label: "Payouts", val: "$50k+" }].map((stat, i) => (
-          <div key={i} className="p-6 border rounded-xl">
-            <h4 className="text-2xl font-bold">{stat.val}</h4>
-            <p className="text-gray-500">{stat.label}</p>
-          </div>
-        ))}
-      </section>
-    </main>
+    </div>
   );
-}
+};
+
+export default Home;
