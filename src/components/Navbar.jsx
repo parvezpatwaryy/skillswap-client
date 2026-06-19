@@ -28,8 +28,8 @@ const Navbar = () => {
           </Link>
           <ul className="hidden md:flex items-center gap-6">
             <li><Link href="/" className="hover:text-indigo-400">Home</Link></li>
-            <li><Link href="/browse-tasks" className="hover:text-indigo-400">Browse Tasks</Link></li>
-            <li><Link href="/browse-freelancers" className="hover:text-indigo-400">Browse Freelancers</Link></li>
+            <li><Link href="/browsetasks" className="hover:text-indigo-400">Browse Tasks</Link></li>
+            <li><Link href="/freelancers" className="hover:text-indigo-400">Browse Freelancers</Link></li>
             
             <div className="h-6 w-px bg-gray-600"></div>
 
