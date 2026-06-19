@@ -1,27 +1,27 @@
-import { LayoutSideContentLeft, Plus, Envelope, Gear, House, ListCheck, Person, CreditCard } from "@gravity-ui/icons";
+import { LayoutSideContentLeft, Plus, Envelope, Gear, House, ListCheck } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
+import Link from "next/link";
 
 export function DeshboardSidebar() {
   const navItems = [
-    { icon: House,label:"Overview",},
-    { icon: ListCheck, label: "My Tasks" },
-    { icon: Plus, label: "Post Task" },
-    { icon: Envelope, label: "Proposals" },
-    { icon: CreditCard, label: "Payments" },
-    { icon: Gear, label: "Settings" },
+    { icon: House,label:"Overview",href: "/dashboard/client"},
+    { icon: ListCheck, label: "My Tasks",href: "/dashboard/client/my-tasks" },
+    { icon: Plus, label: "Post Task",href: "/dashboard/client/post-task" },
+    { icon: Envelope, label: "Proposals",href: "/dashboard/client/proposals" },
   ];
 
   const navContent = (
     <nav className="flex flex-col gap-1">
       {navItems.map((item) => (
-        <button
+        <Link
           key={item.label}
           className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
           type="button"
+          href={item.href}
         >
           <item.icon className="size-5 text-muted" />
           {item.label}
-        </button>
+        </Link>
       ))}
     </nav>
   );

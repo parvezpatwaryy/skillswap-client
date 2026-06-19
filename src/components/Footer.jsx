@@ -12,8 +12,8 @@ export default function Footer() {
         <div className="flex flex-col gap-2">
           <h3 className="font-semibold mb-2">Pages</h3>
           <Link href="/" className="text-gray-400 hover:text-white">Home</Link>
-          <Link href="/browse-tasks" className="text-gray-400 hover:text-white">Browse Tasks</Link>
-          <Link href="/browse-freelancers" className="text-gray-400 hover:text-white">Freelancers</Link>
+          <Link href="/browsetasks" className="text-gray-400 hover:text-white">Browse Tasks</Link>
+          <Link href="/freelancers" className="text-gray-400 hover:text-white">Freelancers</Link>
         </div>
 
         <div className="flex flex-col gap-2">

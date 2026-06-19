@@ -9,7 +9,7 @@ export default async function FreelancerProfile({ params }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-5 px-4">
       <div className="max-w-2xl mx-auto bg-white/70 backdrop-blur-xl border border-white/50 p-8 md:p-12 rounded-[3rem] shadow-2xl">
         <div className="flex flex-col items-center text-center">
           <div className="relative">
