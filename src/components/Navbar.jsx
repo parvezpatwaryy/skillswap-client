@@ -36,7 +36,7 @@ const Navbar = () => {
             {session ? (
               <>
                 <li><Link href="/dashboard/client" className="hover:text-indigo-400">Dashboard</Link></li>
-                <li><Link href="/profile" className="hover:text-indigo-400">Profile</Link></li>
+                <li><Link href="/dashboard/profile" className="hover:text-indigo-400">Profile</Link></li>
                 <li>
                   <Button onClick={handleSignOut} variant="ghost" className="text-white">Logout</Button>
                 </li>
