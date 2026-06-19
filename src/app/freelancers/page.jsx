@@ -1,38 +1,66 @@
-export default function BrowseFreelancers() {
-  const freelancers = [
-    { name: "freelancer user 3", jobs: "1 jobs", desc: "I am cool", skill: "python", rate: "$29/hr" },
-    { name: "freelancer user 2", jobs: "1 jobs", desc: "I am the best", skill: "Next js", rate: "$40/hr" },
-    { name: "freelancer user 1", jobs: "0 jobs", desc: "I am a good freelancer", skill: "React", rate: "$50/hr" },
-    { name: "shan", jobs: "0 jobs", desc: "I am good", skill: "react, nodejs", rate: "$20/hr" },
-  ];
+"use client";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+
+const BrowseFreelancers = () => {
+  const [freelancers, setFreelancers] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/all-freelancers')
+      .then(res => res.json())
+      .then(data => setFreelancers(data))
+      .catch(err => console.error("Error fetching:", err));
+  }, []);
 
   return (
-    <div className="p-8 bg-gray-50 min-h-screen">
-      <div className="mb-8">
-        <h1 className="text-2xl text-black font-bold">Browse Freelancers</h1>
-        <p className="text-gray-500">Find skilled professionals for your tasks</p>
-      </div>
+    <div className="min-h-screen bg-gray-50 py-16 px-6">
+      <div className="container mx-auto">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-900 mb-12">
+          Browse Our <span className="text-blue-600">Expert Freelancers</span>
+        </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {freelancers.map((freelancer, i) => (
-          <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 bg-teal-100 text-teal-600 rounded-full flex items-center justify-center font-bold">
-                {freelancer.name.charAt(0).toUpperCase()}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {freelancers.map(f => (
+            <motion.div
+              whileHover={{ y: -8 }}
+              key={f._id}
+              className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-2xl transition-all duration-300"
+            >
+              <div className="relative">
+                <img
+                  src={f.image}
+                  className="w-28 h-28 rounded-full mx-auto border-4 border-blue-50 shadow-md object-cover"
+                  alt={f.name}
+                />
+                <div className="absolute top-0 right-1/3 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-bold">
+                  ★ {f.rating}
+                </div>
               </div>
-              <div>
-                <h3 className="font-bold text-lg text-black">{freelancer.name}</h3>
-                <p className="text-xs text-gray-500">💼 {freelancer.jobs}</p>
+
+              <h2 className="text-2xl font-bold text-center mt-6 text-gray-800">{f.name}</h2>
+              <p className="text-center text-gray-500 mb-6 font-medium">Completed {f.completedJobs} Jobs</p>
+
+              <div className="flex flex-wrap justify-center gap-2 mt-4">
+                {f.skills.map(skill => (
+                  <span key={skill} className="bg-indigo-50 text-indigo-700 px-4 py-1 rounded-full text-sm font-semibold border border-indigo-100">
+                    {skill}
+                  </span>
+                ))}
               </div>
-            </div>
-            <p className="text-gray-700 mb-4">{freelancer.desc}</p>
-            <span className="inline-block bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm mb-4">
-              {freelancer.skill}
-            </span>
-            <p className="font-bold text-orange-600 text-lg">{freelancer.rate}</p>
-          </div>
-        ))}
+
+              <Link href={`/freelancers/${f._id}`}>
+                <button className="w-full mt-8 bg-gray-900 text-white py-3 rounded-xl font-bold hover:bg-blue-600 transition">
+                  View Profile
+                </button>
+              </Link>
+
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default BrowseFreelancers;
