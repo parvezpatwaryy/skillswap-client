@@ -7,8 +7,15 @@ import { Button } from "@heroui/react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession(); 
-  
+  const { data: session } = useSession();
+
+  const dashboardHref =
+    session?.user?.role === "freelancer"
+      ? "/dashboard/freelancer"
+      : session?.user?.role === "admin"
+      ? "/dashboard/admin"
+      : "/dashboard/client";
+
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
@@ -30,12 +37,12 @@ const Navbar = () => {
             <li><Link href="/" className="hover:text-indigo-400">Home</Link></li>
             <li><Link href="/browsetasks" className="hover:text-indigo-400">Browse Tasks</Link></li>
             <li><Link href="/freelancers" className="hover:text-indigo-400">Browse Freelancers</Link></li>
-            
+
             <div className="h-6 w-px bg-gray-600"></div>
 
             {session ? (
               <>
-                <li><Link href="/dashboard/client" className="hover:text-indigo-400">Dashboard</Link></li>
+                <li><Link href={dashboardHref} className="hover:text-indigo-400">Dashboard</Link></li>
                 <li><Link href="/dashboard/profile" className="hover:text-indigo-400">Profile</Link></li>
                 <li>
                   <Button onClick={handleSignOut} variant="ghost" className="text-white">Logout</Button>
@@ -54,13 +61,13 @@ const Navbar = () => {
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${isOpen ? "max-h-96 pb-4" : "max-h-0"}`}>
           <ul className="flex flex-col gap-4 pt-4 border-t border-slate-800">
             <li><Link href="/" onClick={() => setIsOpen(false)}>Home</Link></li>
-            <li><Link href="/browse-tasks" onClick={() => setIsOpen(false)}>Browse Tasks</Link></li>
-            <li><Link href="/browse-freelancers" onClick={() => setIsOpen(false)}>Browse Freelancers</Link></li>
-            
+            <li><Link href="/browsetasks" onClick={() => setIsOpen(false)}>Browse Tasks</Link></li>
+            <li><Link href="/freelancers" onClick={() => setIsOpen(false)}>Browse Freelancers</Link></li>
+
             {session ? (
               <>
-                <li><Link href="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</Link></li>
-                <li><Link href="/profile" onClick={() => setIsOpen(false)}>Profile</Link></li>
+                <li><Link href={dashboardHref} onClick={() => setIsOpen(false)}>Dashboard</Link></li>
+                <li><Link href="/dashboard/profile" onClick={() => setIsOpen(false)}>Profile</Link></li>
                 <li>
                   <button onClick={handleSignOut} className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-md">
                     Logout
