@@ -1,9 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { authClient } from '@/lib/auth-client'; // আপনার Better Auth ক্লায়েন্ট পাথ
+import { authClient } from '@/lib/auth-client';
 
 export default function ProfilePage() {
-  // Better Auth এর hook ব্যবহার করে সেশন এবং ইউজার ডাটা পাওয়া যাচ্ছে
   const { data: session, isPending } = authClient.useSession();
 
   if (isPending) return <div className="text-center p-10">Loading profile...</div>;
@@ -14,7 +13,6 @@ export default function ProfilePage() {
       <h1 className="text-3xl font-bold mb-8">My Profile</h1>
       
       <div className="flex flex-col items-center gap-6">
-        {/* Better Auth থেকে ইমেজ এবং নাম সরাসরি পাওয়া যাচ্ছে */}
         <img 
           src={session.user.image || "/default-avatar.png"} 
           alt="Profile" 

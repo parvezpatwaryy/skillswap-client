@@ -3,17 +3,15 @@ import { useEffect, useState } from 'react';
 
 export default function MyTasksPage() {
   const [tasks, setTasks] = useState([]);
-  // স্টেটগুলো ডিক্লেয়ার করা জরুরি
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
   const userEmail = "client1@test.com";
 
   useEffect(() => {
     fetchTasks();
-  }, [search, category]); // এখানে search ও category যোগ করতে হবে
+  }, [search, category]);
 
   const fetchTasks = () => {
-    // URL এ প্যারামিটারগুলো যোগ করা হয়েছে
     fetch(`http://localhost:5000/tasks?email=${userEmail}&search=${search}&category=${category}`)
       .then(res => res.json())
       .then(data => setTasks(data))
@@ -45,7 +43,6 @@ export default function MyTasksPage() {
       </div>
 
       <div className="flex gap-4 mb-8">
-        {/* সার্চ ইনপুটে onChange যুক্ত করা হয়েছে */}
         <input 
           type="text" 
           placeholder="Search tasks..." 
@@ -70,7 +67,6 @@ export default function MyTasksPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {tasks.map(task => (
             <div key={task._id} className="border rounded-xl p-6 shadow-sm bg-white hover:shadow-md transition">
-              {/* কার্ডের বাকি অংশ আগের মতোই রাখুন */}
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h2 className="text-xl font-bold text-orange-600">{task.title}</h2>

@@ -3,18 +3,23 @@ import { useEffect, useState } from 'react';
 
 export default function BrowseTasks() {
   const [tasks, setTasks] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
 
+  const limit = 9;
+  const totalPages = Math.ceil(totalCount / limit);
+
   useEffect(() => {
-    fetch(`http://localhost:5000/tasks?page=${page}&limit=9&search=${search}&category=${category}`, {
+    fetch(`http://localhost:5000/tasks?page=${page}&limit=${limit}&search=${search}&category=${category}`, {
       method: "GET",
       headers: { "Cache-Control": "no-cache" }
     })
       .then(res => res.json())
       .then(data => {
-        setTasks(data);
+        setTasks(data.tasks || []);
+        setTotalCount(data.totalCount || 0);
       })
       .catch(err => console.error("Fetch Error:", err));
   }, [page, search, category]);
@@ -43,6 +48,8 @@ export default function BrowseTasks() {
           <option value="Design">Design</option>
           <option value="Development">Development</option>
           <option value="Writing">Writing</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Other">Other</option>
         </select>
       </div>
       
@@ -61,7 +68,8 @@ export default function BrowseTasks() {
           ))}
         </div>
       )}
-      <div className="mt-10 flex gap-4 justify-center">
+
+      <div className="mt-10 flex items-center gap-4 justify-center">
         <button 
           onClick={() => setPage(prev => Math.max(prev - 1, 0))}
           disabled={page === 0}
@@ -69,9 +77,15 @@ export default function BrowseTasks() {
         >
           Previous
         </button>
+
+        <span className="text-sm text-gray-400">
+          Page {page + 1} of {totalPages || 1}
+        </span>
+
         <button 
           onClick={() => setPage(prev => prev + 1)}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg"
+          disabled={page + 1 >= totalPages}
+          className="px-6 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-50"
         >
           Next
         </button>
