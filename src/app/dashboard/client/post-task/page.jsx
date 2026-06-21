@@ -27,7 +27,7 @@ export default function PostTaskPage() {
       budget: parseFloat(form.budget.value),
       deadline: form.deadline.value,
       client_email: session.user.email,
-      status: "open", // ছোট হাতের, Browse Tasks filter এর সাথে মিলিয়ে
+      status: "open",
       createdAt: new Date().toISOString(),
     };
 

@@ -53,7 +53,6 @@ export default function BrowseTasks() {
         </select>
       </div>
       
-      {/* টাস্ক গ্রিড */}
       {tasks.length === 0 ? (
         <p className="text-center text-gray-500">No tasks found matching your criteria!</p>
       ) : (

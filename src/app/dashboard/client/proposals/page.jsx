@@ -45,14 +45,8 @@ export default function ManageProposalsPage() {
     fetchProposals();
   }, [session]);
 
-  // 👇 Accept বাটনে ক্লিক করলে এখন আর সরাসরি status আপডেট হবে না।
-  // বরং Stripe Checkout Session তৈরি করে সেখানে redirect করবে।
-  // পেমেন্ট সফল হলে backend-এর /confirm-session route
-  // proposal + task status আপডেট করবে (আগে যেটা এখানে করা হতো)।
   const handleAccept = async (proposal) => {
     const task = taskTitles[proposal.task_id];
-
-    // এই টাস্কে আগেই কোনো proposal accept হয়েছে কিনা চেক
     const alreadyAccepted = proposals.some(
       (p) => p.task_id === proposal.task_id && p.status === "accepted"
     );
@@ -82,7 +76,6 @@ export default function ManageProposalsPage() {
       const data = await res.json();
 
       if (data.url) {
-        // Stripe-এর হোস্টেড চেকআউট পেজে রিডাইরেক্ট
         window.location.href = data.url;
       } else {
         alert("Payment session তৈরি করা যায়নি। আবার চেষ্টা করুন।");
