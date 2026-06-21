@@ -45,6 +45,10 @@ export default function ManageProposalsPage() {
     fetchProposals();
   }, [session]);
 
+  // 👇 Accept বাটনে ক্লিক করলে এখন আর সরাসরি status আপডেট হবে না।
+  // বরং Stripe Checkout Session তৈরি করে সেখানে redirect করবে।
+  // পেমেন্ট সফল হলে backend-এর /confirm-session route
+  // proposal + task status আপডেট করবে (আগে যেটা এখানে করা হতো)।
   const handleAccept = async (proposal) => {
     const task = taskTitles[proposal.task_id];
 
@@ -57,33 +61,36 @@ export default function ManageProposalsPage() {
       return;
     }
 
-    if (!confirm(`Accept this proposal from ${proposal.freelancer_email}?`)) return;
+    if (!confirm(`Accept this proposal from ${proposal.freelancer_email}? You will be redirected to payment.`)) return;
 
     setProcessingId(proposal._id);
 
     try {
-      // proposal status আপডেট
-      await fetch(`http://localhost:5000/proposals/${proposal._id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "accepted" }),
-      });
-
-      // task status আপডেট + assigned_freelancer সেট
-      await fetch(`http://localhost:5000/tasks/${proposal.task_id}`, {
-        method: "PUT",
+      const res = await fetch("http://localhost:5000/create-checkout-session", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          status: "In Progress",
-          assigned_freelancer: proposal.freelancer_email,
+          task_id: proposal.task_id,
+          proposal_id: proposal._id,
+          amount: proposal.proposed_budget,
+          task_title: task?.title || "Task Payment",
+          freelancer_email: proposal.freelancer_email,
+          client_email: session.user.email,
         }),
       });
 
-      fetchProposals();
+      const data = await res.json();
+
+      if (data.url) {
+        // Stripe-এর হোস্টেড চেকআউট পেজে রিডাইরেক্ট
+        window.location.href = data.url;
+      } else {
+        alert("Payment session তৈরি করা যায়নি। আবার চেষ্টা করুন।");
+        setProcessingId(null);
+      }
     } catch (err) {
-      console.error("Accept failed:", err);
+      console.error("Checkout session creation failed:", err);
       alert("Something went wrong. Please try again.");
-    } finally {
       setProcessingId(null);
     }
   };
@@ -173,7 +180,7 @@ export default function ManageProposalsPage() {
                       disabled={processingId === p._id || taskHasAccepted}
                       className="px-5 py-2 rounded-lg bg-green-600 text-white text-sm font-medium disabled:opacity-50"
                     >
-                      {processingId === p._id ? "Processing..." : "Accept"}
+                      {processingId === p._id ? "Redirecting to payment..." : "Accept"}
                     </button>
                     <button
                       onClick={() => handleReject(p)}

@@ -98,7 +98,6 @@ const RegisterPage = () => {
           }}
           className="w-full flex items-center justify-center gap-3 border border-slate-300 bg-white text-slate-800 py-3 rounded-lg hover:bg-slate-100 transition"
         >
-          {/* Google SVG Path */}
           Continue with Google
         </button>
       </form>

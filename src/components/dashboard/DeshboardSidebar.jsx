@@ -9,6 +9,7 @@ export function DeshboardSidebar({ role = "client" }) {
         return [
           { icon: House, label: "Admin Stats", href: "/dashboard/admin" },
           { icon: Person, label: "Manage Users", href: "/dashboard/admin/users" },
+          { icon: ListCheck, label: "Manage Tasks", href: "/dashboard/admin/tasks" },
           { icon: CreditCard, label: "Transactions", href: "/dashboard/admin/payments" },
         ];
       case "freelancer":
