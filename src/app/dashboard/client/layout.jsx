@@ -7,15 +7,11 @@ export default async function ClientLayout({ children }) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-
-  // লগইন করা না থাকলে -> লগইন পেজে পাঠাও
   if (!session) {
     redirect("/auth/signin");
   }
 
   const role = session.user.role;
-
-  // role client না হলে -> তার নিজের সঠিক dashboard এ পাঠাও
   if (role !== "client") {
     if (role === "freelancer") redirect("/dashboard/freelancer");
     if (role === "admin") redirect("/dashboard/admin");

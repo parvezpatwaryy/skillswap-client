@@ -24,8 +24,6 @@ export default function MyProposalsPage() {
       .then((res) => res.json())
       .then(async (data) => {
         setProposals(data);
-
-        // প্রতিটা proposal এর task title আলাদাভাবে fetch করা
         const titles = {};
         await Promise.all(
           data.map(async (p) => {

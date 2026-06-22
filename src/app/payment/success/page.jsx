@@ -10,7 +10,7 @@ export default function PaymentSuccessPage() {
 
   const [payment, setPayment] = useState(null);
   const [taskTitle, setTaskTitle] = useState("");
-  const [status, setStatus] = useState("loading"); // loading | success | error
+  const [status, setStatus] = useState("loading");
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
@@ -38,8 +38,6 @@ export default function PaymentSuccessPage() {
 
         setPayment(data.payment);
         setStatus("success");
-
-        // টাস্কের টাইটেল দেখানোর জন্য আলাদা করে fetch করা হচ্ছে
         if (data.payment?.task_id) {
           try {
             const taskRes = await fetch(
@@ -87,8 +85,6 @@ export default function PaymentSuccessPage() {
       </div>
     );
   }
-
-  // status === "success"
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] text-center px-4">
       <div className="size-14 rounded-full bg-green-500/10 flex items-center justify-center mb-4">

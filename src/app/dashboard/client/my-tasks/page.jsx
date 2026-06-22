@@ -30,8 +30,8 @@ export default function MyTasksPage() {
   };
 
   const handleDelete = async (task) => {
-    if (task.hasAcceptedProposal) {
-      alert("Cannot delete: this task already has an accepted proposal.");
+    if (task.status !== "open") {
+      alert("Cannot delete: this task already has an accepted proposal or is in progress.");
       return;
     }
     if (!confirm("Are you sure you want to delete this task?")) return;
@@ -104,19 +104,21 @@ export default function MyTasksPage() {
 
               <div className="flex gap-3 mt-4">
                 {task.status === "open" && (
-                  <button
-                    onClick={() => router.push(`/dashboard/client/my-tasks/edit/${task._id}`)}
-                    className="px-4 py-1.5 text-sm rounded-lg border border-default hover:bg-default"
-                  >
-                    Edit
-                  </button>
+                  <>
+                    <button
+                      onClick={() => router.push(`/dashboard/client/my-tasks/edit/${task._id}`)}
+                      className="px-4 py-1.5 text-sm rounded-lg border border-default hover:bg-default"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(task)}
+                      className="px-4 py-1.5 text-sm rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
-                <button
-                  onClick={() => handleDelete(task)}
-                  className="px-4 py-1.5 text-sm rounded-lg border border-red-500/30 text-red-400 hover:bg-red-500/10"
-                >
-                  Delete
-                </button>
               </div>
             </div>
           ))}

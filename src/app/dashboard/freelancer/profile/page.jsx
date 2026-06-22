@@ -31,7 +31,6 @@ export default function FreelancerProfilePage() {
       })
       .catch((err) => {
         console.error("Profile fetch failed:", err);
-        // প্রোফাইল না থাকলেও session info দিয়ে ফর্ম দেখাও
         setName(session.user.name || "");
         setImage(session.user.image || "");
         setLoading(false);
