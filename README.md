@@ -27,7 +27,11 @@ SkillSwap is a modern freelance marketplace where clients can post small tasks, 
 
 ### Freelancer
 * **Email**: freelanceruser3@gmail.com
-* **Password**: freelanceruser3@gmail.com
+* **Password**: Parvez123@
+* 
+### client
+* **Email**: clientuser3@gmail.com
+* **Password**: Parvez123@
 
 ## 👨‍💻 Contact
 For any queries, please reach out:
