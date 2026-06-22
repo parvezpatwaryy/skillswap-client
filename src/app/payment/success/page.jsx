@@ -80,7 +80,7 @@ export default function PaymentSuccessPage() {
           href="/dashboard/client"
           className="px-5 py-2.5 rounded-lg bg-black text-white text-sm font-medium"
         >
-          ড্যাশবোর্ডে ফিরে 
+          ড্যাশবোর্ডে ফিরে যান
         </Link>
       </div>
     );
